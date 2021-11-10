@@ -10,7 +10,7 @@ The protocol for the device is quite simple.  It uses 9600-N-8-1 with no flow co
 | MDL\r | MDL^BC95XLT\r | Get model name       |
 | VER\r | VER^V1.04\r   | Get software version |
 
-There are also two commands with arguments which are `RCM` and `PCM` which are Read Channel Memmory and Program channel Memory respectively.  
+There are also two commands with arguments which are `RCM` and `PCM` which are Read Channel Memory and Program channel Memory respectively.  
 
 ## RCM
 Read Channel Memory takes a single argument which is a channel number.
