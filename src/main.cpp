@@ -32,6 +32,27 @@ void read(const char* portname) {
 }
 
 void write(const char* portname) {
+    try {
+        asio::io_context io_context;
+        Radio scanner(io_context, portname);
+        std::cout << "# " << scanner.getModel() 
+            << "\n# " << scanner.getVersion() << '\n';
+        scanner.programMode(true);
+        for (std::string line; std::getline(std::cin, line); ) {
+            // is it a comment?
+            if (line.front() != '#') {
+                Channel ch(line, true);
+                scanner.writeChannel(ch);
+                std::cout << ch << '\n';
+            } else {
+                std::cout << line << '\n';
+            }
+        }
+        scanner.programMode(false);
+    }
+    catch (std::exception &e) {
+        std::cerr << e.what() << '\n';
+    }
 }
 
 int main(int argc, char *argv[])
