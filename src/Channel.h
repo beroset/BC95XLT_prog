@@ -4,13 +4,20 @@
 #include <string>
 #include <string_view>
 
+struct Boolopt {
+    bool on;
+    Boolopt(char ch = 'R');
+    friend std::ostream& operator<<(std::ostream& out, const Boolopt& boolopt);
+    friend std::istream& operator>>(std::istream& in, Boolopt boolopt);
+};
+
 struct Channel {
     uint8_t number;
     float frequency;
-    bool lockout;
-    bool priority;
-    bool delay;
-    Channel(std::string_view line);
+    Boolopt lockout;
+    Boolopt priority;
+    Boolopt delay;
+    Channel(std::string_view line, bool human_readable = false);
     std::string toString(bool human_readable = false) const;
     friend std::ostream& operator<<(std::ostream& out, const Channel& ch);
 };
