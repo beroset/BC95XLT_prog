@@ -1,0 +1,8 @@
+set(EXECUTABLE_NAME "BC95XLT_prog")
+find_package(Asio REQUIRED)
+add_definitions(-DASIO_STANDALONE)
+include_directories(${ASIO_INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+add_executable(${EXECUTABLE_NAME} main.cpp Channel.cpp Radio.cpp)
+INSTALL(TARGETS ${EXECUTABLE_NAME} DESTINATION bin)
