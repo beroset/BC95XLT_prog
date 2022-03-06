@@ -11,10 +11,15 @@
 
 class ChannelTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE(ChannelTest);
-    CPPUNIT_TEST(testBoolopt);
+    CPPUNIT_TEST(testDefaultBoolopt);
+    CPPUNIT_TEST(testSetBoolopt);
+    CPPUNIT_TEST(testSetDecodeBoolopt);
+    CPPUNIT_TEST(testSetEncodeBoolopt);
+    CPPUNIT_TEST(testResetDecodeBoolopt);
+    CPPUNIT_TEST(testResetEncodeBoolopt);
     CPPUNIT_TEST_SUITE_END();
 public:
-    void testBoolopt() {
+    void testDefaultBoolopt() {
         Boolopt a{};
         Boolopt b{'R'};
         std::stringstream alpha;
@@ -23,6 +28,46 @@ public:
         beta << b;
         std::cout << a << " --> " << b << "\n";
         CPPUNIT_ASSERT(alpha.str() == beta.str());
+    }
+    void testSetBoolopt() {
+        Boolopt a{};
+        Boolopt b{'S'};
+        std::stringstream alpha;
+        alpha << a;
+        std::stringstream beta;
+        beta << b;
+        std::cout << a << " --> " << b << "\n";
+        CPPUNIT_ASSERT(alpha.str() != beta.str());
+    }
+    void testSetDecodeBoolopt() {
+        Boolopt a{'S'};
+        std::stringstream alpha;
+        alpha << a;
+        std::cout << a << "\n";
+        CPPUNIT_ASSERT(alpha.str() == "S");
+    }
+    void testSetEncodeBoolopt() {
+        std::stringstream alpha;
+        alpha << "S";
+        Boolopt a;
+        alpha >> a;
+        std::cout << a << "\n";
+        CPPUNIT_ASSERT(alpha.str() == "S");
+    }
+    void testResetDecodeBoolopt() {
+        Boolopt a{'R'};
+        std::stringstream alpha;
+        alpha << a;
+        std::cout << a << "\n";
+        CPPUNIT_ASSERT(alpha.str() == "R");
+    }
+    void testResetEncodeBoolopt() {
+        std::stringstream alpha;
+        alpha << "R";
+        Boolopt a;
+        alpha >> a;
+        std::cout << a << "\n";
+        CPPUNIT_ASSERT(alpha.str() == "R");
     }
 
 private:
