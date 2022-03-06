@@ -11,66 +11,27 @@
 
 class ChannelTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE(ChannelTest);
-    CPPUNIT_TEST(testDefaultBoolopt);
-    CPPUNIT_TEST(testSetBoolopt);
-    CPPUNIT_TEST(testSetDecodeBoolopt);
-    CPPUNIT_TEST(testSetEncodeBoolopt);
-    CPPUNIT_TEST(testResetDecodeBoolopt);
-    CPPUNIT_TEST(testResetEncodeBoolopt);
+    CPPUNIT_TEST(testHumanReadable);
     CPPUNIT_TEST_SUITE_END();
 public:
-    void testDefaultBoolopt() {
-        Boolopt a{};
-        Boolopt b{'R'};
-        std::stringstream alpha;
-        alpha << a;
-        std::stringstream beta;
-        beta << b;
-        std::cout << a << " --> " << b << "\n";
-        CPPUNIT_ASSERT(alpha.str() == beta.str());
-    }
-    void testSetBoolopt() {
-        Boolopt a{};
-        Boolopt b{'S'};
-        std::stringstream alpha;
-        alpha << a;
-        std::stringstream beta;
-        beta << b;
-        std::cout << a << " --> " << b << "\n";
-        CPPUNIT_ASSERT(alpha.str() != beta.str());
-    }
-    void testSetDecodeBoolopt() {
-        Boolopt a{'S'};
-        std::stringstream alpha;
-        alpha << a;
-        std::cout << a << "\n";
-        CPPUNIT_ASSERT(alpha.str() == "S");
-    }
-    void testSetEncodeBoolopt() {
-        std::stringstream alpha;
-        alpha << "S";
-        Boolopt a;
-        alpha >> a;
-        std::cout << a << "\n";
-        CPPUNIT_ASSERT(alpha.str() == "S");
-    }
-    void testResetDecodeBoolopt() {
-        Boolopt a{'R'};
-        std::stringstream alpha;
-        alpha << a;
-        std::cout << a << "\n";
-        CPPUNIT_ASSERT(alpha.str() == "R");
-    }
-    void testResetEncodeBoolopt() {
-        std::stringstream alpha;
-        alpha << "R";
-        Boolopt a;
-        alpha >> a;
-        std::cout << a << "\n";
-        CPPUNIT_ASSERT(alpha.str() == "R");
+    void testHumanReadable() {
+        for (const auto& pair : tstchannel) {
+            Channel a(pair.human, true);
+            std::string result{a.toString(true)};
+            CPPUNIT_ASSERT(pair.human == result);
+        }
     }
 
 private:
+    struct ChannelPair {
+        std::string_view human;
+        std::string_view scanner;
+    };
+    static std::vector<ChannelPair> tstchannel;
+};
+
+std::vector<ChannelTest::ChannelPair> ChannelTest::tstchannel{
+    { "21,987.6435,R,S,S", "21,987.6435,R,S,S" }, 
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ChannelTest);
