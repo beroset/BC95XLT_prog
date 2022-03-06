@@ -4,21 +4,26 @@
 #include <string>
 #include <string_view>
 
-struct Boolopt {
-    bool on;
+class Boolopt {
+public:
     Boolopt(char ch = 'R');
     friend std::ostream& operator<<(std::ostream& out, const Boolopt& boolopt);
-    friend std::istream& operator>>(std::istream& in, Boolopt boolopt);
+    friend std::istream& operator>>(std::istream& in, Boolopt& boolopt);
+private:
+    bool on;
 };
 
-struct Channel {
+class Channel {
+public:
+    Channel(std::string_view line, bool human_readable = false);
+    std::string toString(bool human_readable = false) const;
+    friend std::ostream& operator<<(std::ostream& out, const Channel& ch);
+    bool operator<(const Channel& other);
+private:
     uint8_t number;
     float frequency;
     Boolopt lockout;
     Boolopt priority;
     Boolopt delay;
-    Channel(std::string_view line, bool human_readable = false);
-    std::string toString(bool human_readable = false) const;
-    friend std::ostream& operator<<(std::ostream& out, const Channel& ch);
 };
 #endif // MY_CHANNEL_H

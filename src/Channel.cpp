@@ -13,7 +13,7 @@ std::ostream& operator<<(std::ostream& out, const Boolopt& boolopt) {
     return out << rs[boolopt.on];
 }
 
-std::istream& operator>>(std::istream& in, Boolopt boolopt) {
+std::istream& operator>>(std::istream& in, Boolopt& boolopt) {
     char opt;
     in >> opt;
     if (opt == 'R' || opt == 'S') {
@@ -35,6 +35,7 @@ Channel::Channel(std::string_view line, bool human_readable) {
         buffer >> lockout >> delim;
         buffer >> priority >> delim;
         buffer >> delay;
+        number = channelnumber;
         valid = delim == ',';
     } else {
         for(std::string chunk; std::getline(buffer, chunk, '^'); ) {
@@ -77,6 +78,10 @@ std::string Channel::toString(bool human_readable) const {
                 << (human_readable ? "," : "^D") << delay
                 ;
     return ss.str();
+}
+
+bool Channel::operator<(const Channel& other) {
+    return number < other.number;
 }
 
 std::ostream& operator<<(std::ostream& out, const Channel& ch) {

@@ -3,23 +3,19 @@
 
 #include "Channel.h"
 #include <string>
-#include <string_view>
-#include <asio.hpp>
+#include <vector>
 
-class Radio {
-public:
-    Radio(asio::io_context& io_context, const char* portname);
-    std::string getModel();
-    std::string getVersion();
-    std::string readChannel(uint8_t channel);
-    std::string writeChannel(const Channel& channel);
-    bool programMode(bool mode);
-private:
-    std::string enterProgMode();
-    std::string leaveProgMode();
-    std::string doCommand(std::string_view cmd);
-    bool progmode = false;
-    asio::serial_port port;
-    asio::io_context& io_context;
+struct RadioContents {
+    std::string model;
+    std::string version;
+    std::vector<Channel> channel_list;
+    friend std::ostream& operator<<(std::ostream& out, const RadioContents& radio_contents);
+    friend std::istream& operator>>(std::istream& in, RadioContents& radio_contents);
 };
+
+// read the programming data from the radio
+RadioContents read_radio(const char* portname, bool verbose=false);
+// write the programming data to the radio
+void write_radio(const char* portname, const RadioContents& radio_data, bool verbose=false);
+
 #endif // MY_RADIO_H
