@@ -25,6 +25,8 @@ BC95XLT_prog R /dev/ttyUSB1 > channel.txt
 BC95XLT_prog W /dev/ttyUSB1 < channel.txt
 ```
 
+The *serialport* argument is as shown above, `/dev/ttyUSB1` for Linux, or something like `COM4` for Windows.
+
 The `R` or `W` arguments are case sensitive and stand for Read and Write.  In Read mode, it will read all 200 channels from the scanner and print them, with some addtional information to `stdout`.  In the examples shown above we redirect this output to a file.  The first few lines on my scanner look like this:
 
 ```
@@ -40,7 +42,7 @@ Any line with `#` in the first position is a comment and will be ignored when re
 
 Note that spaces are not allowed.  The data is a direct mapping to the data read/programmed by the [RCM](#RCM) and [PCM](#PCM) commands as shown below.
 
-It's recommended to read all of the channels first, then modify the text file using a text editor, and then write it back.  Because lines beginning with `#` are comment lines, it can be handy to use that to document the channels like this:
+It's recommended to read all of the channels first, then modify the text file using a text editor, and then write it back using Write mode.  Because lines beginning with `#` are comment lines, it can be handy to use that to document the channels like this:
 
 ```
 # model: MDL^BC95XLT
@@ -53,7 +55,7 @@ It's recommended to read all of the channels first, then modify the text file us
 3,162.5500,S,R,R
 ```
 
-To write the configuration into the scanner, simply use the `W` option as shown above.
+To write the configuration into the scanner, simply use the `W` option as shown above.  Note that for Read mode, all 200 channels will be read and in order, but in Write mode, only the channels listed in the file will be written and they may be in any order.  If the same channel number appears multiple times, only the last one will have effect.
 
 ## Serial protocol details
 
