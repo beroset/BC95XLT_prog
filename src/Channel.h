@@ -1,5 +1,6 @@
 #ifndef MY_CHANNEL_H
 #define MY_CHANNEL_H
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <string_view>
