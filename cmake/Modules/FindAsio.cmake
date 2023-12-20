@@ -4,6 +4,7 @@ file(GLOB _Asio_INCLUDE_DIRS
     "$ENV{ProgramFiles${_x86}}/asio/*/include"
     "C://vcpkg/packages/asio_x64-windows/share/asio/include"
     "C://vcpkg/packages/asio_x64-windows/*/include"
+    "C:/vcpkg/*/asio/include"
     )
 unset(_x86)
 
