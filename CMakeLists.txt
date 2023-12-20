@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.20)
 project(BC95XLT_prog VERSION 1.0.0)
 
 # options off-by-default that you can enable
