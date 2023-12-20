@@ -95,6 +95,7 @@ jobs:
           -DWITH_TEST=ON
           -S ${{ github.workspace }}
         fi 
+        shell: bash
 
 
     - name: Build
