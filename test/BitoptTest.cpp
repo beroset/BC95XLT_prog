@@ -2,85 +2,59 @@
 #include <iomanip>
 #include <string>
 #include <sstream>
-#include <cppunit/TestRunner.h>
-#include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <cppunit/ui/text/TextTestRunner.h>
 #include "Channel.h"
+#if USE_CATCH2_VERSION == 2
+#  define CATCH_CONFIG_MAIN
+#  include <catch2/catch.hpp>
+#elif USE_CATCH2_VERSION == 3
+#  include <catch2/catch_test_macros.hpp>
+#else
+#  error "Catch2 version unknown"
+#endif
 
-class BitoptTest : public CppUnit::TestFixture {
-    CPPUNIT_TEST_SUITE(BitoptTest);
-    CPPUNIT_TEST(testDefaultBoolopt);
-    CPPUNIT_TEST(testSetBoolopt);
-    CPPUNIT_TEST(testSetDecodeBoolopt);
-    CPPUNIT_TEST(testSetEncodeBoolopt);
-    CPPUNIT_TEST(testResetDecodeBoolopt);
-    CPPUNIT_TEST(testResetEncodeBoolopt);
-    CPPUNIT_TEST_SUITE_END();
-public:
-    void testDefaultBoolopt() {
+TEST_CASE( "Use and read boolean options", "[boolopt]" ) {
+    SECTION("Default constructor is 'R'") {
         Boolopt a{};
         Boolopt b{'R'};
         std::stringstream alpha;
         alpha << a;
         std::stringstream beta;
         beta << b;
-        std::cout << a << " --> " << b << "\n";
-        CPPUNIT_ASSERT(alpha.str() == beta.str());
+        REQUIRE(alpha.str() == beta.str());
     }
-    void testSetBoolopt() {
+    SECTION("Default is not 'S'") {
         Boolopt a{};
         Boolopt b{'S'};
         std::stringstream alpha;
         alpha << a;
         std::stringstream beta;
         beta << b;
-        std::cout << a << " --> " << b << "\n";
-        CPPUNIT_ASSERT(alpha.str() != beta.str());
+        REQUIRE(alpha.str() != beta.str());
     }
-    void testSetDecodeBoolopt() {
+    SECTION("Construct 'S'") {
         Boolopt a{'S'};
         std::stringstream alpha;
         alpha << a;
-        std::cout << a << "\n";
-        CPPUNIT_ASSERT(alpha.str() == "S");
+        REQUIRE(alpha.str() == "S");
     }
-    void testSetEncodeBoolopt() {
+    SECTION("Encode set Boolopt to stream") {
         std::stringstream alpha;
         alpha << "S";
         Boolopt a;
         alpha >> a;
-        std::cout << a << "\n";
-        CPPUNIT_ASSERT(alpha.str() == "S");
+        REQUIRE(alpha.str() == "S");
     }
-    void testResetDecodeBoolopt() {
+    SECTION("Encode reset Boolopt to stream") {
         Boolopt a{'R'};
         std::stringstream alpha;
         alpha << a;
-        std::cout << a << "\n";
-        CPPUNIT_ASSERT(alpha.str() == "R");
+        REQUIRE(alpha.str() == "R");
     }
-    void testResetEncodeBoolopt() {
+    SECTION("Decode reset Boolopt from stream") {
         std::stringstream alpha;
         alpha << "R";
         Boolopt a;
         alpha >> a;
-        std::cout << a << "\n";
-        CPPUNIT_ASSERT(alpha.str() == "R");
+        REQUIRE(alpha.str() == "R");
     }
-
-private:
-};
-
-CPPUNIT_TEST_SUITE_REGISTRATION(BitoptTest);
-
-int main()
-{
-  CppUnit::TextUi::TestRunner runner;
-  CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
-  runner.addTest( registry.makeTest() );
-  bool wasSuccessful = runner.run();
-  std::cout << "wasSuccessful = " << std::boolalpha << wasSuccessful << '\n';
-  return !wasSuccessful;
 }
