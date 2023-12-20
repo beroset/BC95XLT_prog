@@ -68,7 +68,8 @@ jobs:
           brew update
           brew install catch2 asio
         elif [ "$RUNNER_OS" == "Windows" ]; then
-          choco install catch2 asio
+          vcpkg install catch2
+          vcpkg install asio
         else 
           echo "$RUNNER_OS is not supported"
           exit 1
