@@ -21,7 +21,7 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         build_type: [Release]
         c_compiler: [gcc, clang, cl]
         include:
@@ -56,10 +56,12 @@ jobs:
       run: |
         if [ "$RUNNER_OS" == "Linux" ]; then
           sudo apt-get update
-          sudo apt-get install catch2 asio
+          sudo apt-get install catch2 libasio-dev
         elif [ "$RUNNER_OS" == "macOS" ]; then
           brew update
           brew install catch2 asio
+        elif [ "$RUNNER_OS" == "Windows" ]; then
+          choco install catch2 asio
         else 
           echo "$RUNNER_OS is not supported"
           exit 1
