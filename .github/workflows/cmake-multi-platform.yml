@@ -52,6 +52,20 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - name: Install catch2 and asio
+      run: |
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          sudo apt-get update
+          sudo apt-get install catch2 asio
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+          brew update
+          brew install catch2 asio
+        else 
+          echo "$RUNNER_OS is not supported"
+          exit 1
+        fi
+      shell: bash
+
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
