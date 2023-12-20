@@ -2,9 +2,7 @@ set(_x86 "(x86)")
 file(GLOB _Asio_INCLUDE_DIRS
     "$ENV{ProgramFiles}/asio/*/include"
     "$ENV{ProgramFiles${_x86}}/asio/*/include"
-    "C://vcpkg/packages/asio_x64-windows/share/asio/include"
-    "C://vcpkg/packages/asio_x64-windows/*/include"
-    "C:/vcpkg/*/asio/include"
+    "C:/vcpkg/packages/asio_x64-windows/include"
     )
 unset(_x86)
 
